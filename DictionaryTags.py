@@ -12,6 +12,14 @@ import fasta
 import barcodeArrayBuilder
 import GrayScaleCodeTag
 
+def saveArray(arr, fileName):
+    target = open(fileName, "a")
+    for i in range((len(arr)*3/4-20*512),(len(arr)*3/4+20*512)):
+	target.write(str(arr[i]))
+	target.write("\t")
+    target.write("\n")
+    target.close()
+    return
 
 def dictionaryFilter(D):
     count_Threshold = 30     #greater than or equal to
@@ -22,7 +30,7 @@ def dictionaryFilter(D):
 
 def getArray(seq):
     D, maxL = grammar2.LZ78_av(seq)
-    print "\tBUILT DICTIONARY"
+    print "\tBUILT DICTIONARY: Max L: ", maxL
     #D = dictionaryFilter(D)
     seqBarCode = barcodeArrayBuilder.array_Build_C(len(seq), D, seq, maxL)
     print "\tBUILT ARRAY"
@@ -34,71 +42,20 @@ def paintIt(seqBarcode, fileName = "outfile.png"):
     return
 
 def main():
-    seq = '/home/keith/Documents/filesForProgramming/Seqs/Chlorella/sequence (29).fasta'
-    #seq = 'SEQTESTS.txt'
+    seq = '/home/keith/Documents/filesForProgramming/Seqs/Chlorella/sequence (4).fasta'
+    #seq = '/home/keith/Documents/filesForProgramming/Dictionary/Seqs/Bact/Francisella_tularensisNE061598.fna'
+    seq = "randomSeq.tfa"
     seq = fasta.fna_read(seq)
+    saveArray(list(seq), "ErrorSearch.txt")
     #seq = "GAGACAAATACTCTTTTGGTTTACCGTTAAAAGAAAAATATGTTNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNTTTGATAGTTTTGTTGTTGGAGATGCTAACAAAATTGCTAGAGCAGCAGCTATGCAGGTATCGATAAATCCAGGTAAATTACATAACCCTTTATTCATTTATGGTGGTAGTGGTTTAGGTAAAACTCACTTAATGCAAGCAATAGGTAATCATGCAAGAGAAGTTAATCCTAATGCCAAAATTATTTATACAAATTCAGAACAATTTATTAAAGATTATGTAAATTCTATTCGTTTACAAGATCAAGATGAGTTTCAAAGAGTTTATAGATCTGCGGATATACTTTTGATTGATGATATTCAATTTATCGCTGGTAAAGAGGGTACTGCTCAGGAGTTTTTCCATACTTTTAATGCATTGTATGAAAATGGTAAACAGATAATTCTAACTAGTGATAAGTATCCAAATGAAATAGAAGGGCTTGAAGAAAGACTAGTTTCGCGTTTTGGTTATGGTTTAACAGTTTCTGTTGATATGCCAGATTTAGAAACCAGAATTGCTATCTTGCTCAAAAAAGCTCATGATTTAGGTCAGAAATTACCTAACGAAACAGCAGCTTTTATTGCTGAGAATGTACGTACTAATGTCAGAGAACTAGAAGGTGCTCTAAATAGGGTTCTTACTACCTCTAAATTTAATCATAAAGATCCTACTATCGAAGTT"
-    seq = "GAGACATAAAAGCTAGACAT"
-    seq = '''dearJoferyYouSuckhereishamletusage: BarcodePainter.py [-h] [-i INPUT_FILE] [-o OUTPUT_FILE] [-c NUM_COLORS] [-w OUTPUT_WIDTH] [-t OUTPUT_HEIGHT]
-
-
-
-Create a barcode image for a vector of colors
-
-optional arguments:
- 
-	-h, --help
-	                show this help message and exit
-
-	-i INPUT_FILE, --input-file INPUT_FILE
-
-                        Input coloring file*
-  
-	-o OUTPUT_FILE, --output-file OUTPUT_FILE
-
-                        Output image filename
-	-c NUM_COLORS, --num-colors NUM_COLORS
-
-                        Number of colors used to paint the vector
- 
-	-w OUTPUT_WIDTH, --output-width OUTPUT_WIDTH
-
-                        Width of each block (pixels)
-  
-	-t OUTPUT_HEIGHT, --output-height OUTPUT_HEIGHT
-
-                        Height of each string (pixels)
-
-
-
-* Coloring file format : 
-
-The first line of the file should contain a single integer N, the size of the vector being painted.
-
-The following N lines should contain a single integer k, denoting the zero-indexed color of the corresponding vector entry.
-
-
-Example:
-
-    3
-
-    0
-
-    0
-
-    1
-
-
-The example above will create an image including three sections.  
-The first two elements are colored with color[0]. 
-
-*NOTE*: There appears to be only two colors possible in this example.  
-If this is the case, don't forget to specify '-c 2' '''
-    seq = seq.split()
-    seq = [x.strip() for x in seq]
-    seq = "".join(seq)
-    seq = seq.upper()
+    #seq = "GAGACATAAAAGCTAGACAT"
+    #seq = '''CATMAN '''
+    #seq = seq.split()
+    #seq = [x.strip() for x in seq]
+    #seq = "".join(seq)
+    #seq = seq.upper()
     barcode = getArray(seq)
+    saveArray(barcode, "ErrorSearch.txt")
     paintIt(barcode)
 
 '''

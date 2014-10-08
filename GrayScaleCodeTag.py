@@ -3,6 +3,16 @@ from PIL import Image, ImageFilter
 import PIL
 import numpy 
 
+
+def saveArray(arr, fileName):
+    target = open(fileName, "a")
+    for i in range((len(arr)*3/4-20*512),(len(arr)*3/4+20*512)):
+	target.write(str(arr[i]))
+	target.write("\t")
+    target.write("\n")
+    target.close()
+    return
+
 def arrangeSequence(myArray, myWidth):
     depth = 1 + int(len(myArray)/myWidth)
     trailing = myWidth - len(myArray)%myWidth
@@ -10,13 +20,16 @@ def arrangeSequence(myArray, myWidth):
 	myArray.append(0)
  
     largest = max(myArray)
+    print "\thigestFreq: ",largest
     if (largest == 0):
 	largest = 1
 
 
     myA = numpy.array(myArray)
     myA = myA * (255/float(largest))
+    saveArray(myA, "ErrorSearch.txt")
     myA = myA.astype(int)
+    saveArray(myA, "ErrorSearch.txt")
 
     myA = myA.reshape((myWidth, depth), order='F')
 

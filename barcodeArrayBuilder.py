@@ -8,16 +8,20 @@ import math
 
 def array_Build_C(seq_Length, Dictionary, seq, maxL):
     array_Built = [ 0 for a in range(seq_Length)]
+    maxVal = 0
     for p in range(maxL):
 	slide = 0
 	while ((slide+p+1) <= seq_Length):
 	    if (seq[slide:slide+p+1] in Dictionary):
 		for i in range(p+1):
 		    array_Built[slide+i] += 1
+		    if (maxVal < array_Built[slide+i]):
+			maxVal = array_Built[slide+i]
 	    slide += 1
-    print Dictionary.keys() 
-    print array_Built
-    print seq
+    #print Dictionary.keys() 
+    #print array_Built
+    #print seq
+    print maxVal
     return array_Built
 	
 

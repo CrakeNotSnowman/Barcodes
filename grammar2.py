@@ -22,21 +22,19 @@ def LZ78_av(s): # LZ78 algorithm looking for words at each position
                 break
 	    if (s[i] == "N"):
 		break
-            D[s[i:i+word_len]] +=[i]  # counting how many times we look for this word in the dictionary
+            D[s[i:i+word_len]] +=1  # counting how many times we look for this word in the dictionary
             word_len +=1            # we had the word in the dictionary, now look for a longer one with an extra letter at the end
 	    if (word_len > maxL):
 		maxL = word_len
             
         
-        if (i+word_len)<len(s):  # if we are at the end of the sequence, don't to anything
-            D[s[i:i+word_len]] = [i]   # this is a new word, add it to the dictionarym and say it we encountered it once
+        if ((i+word_len)<len(s) and (s[i] != "N")):  # if we are at the end of the sequence, don't to anything
+            D[s[i:i+word_len]] = 1   # this is a new word, add it to the dictionarym and say it we encountered it once
         if (i+word_len == len(s)) :
             if ((s[i:i+word_len] in D)) :
-                D[s[i:i+word_len]] += [i]
-                
-            else :
-                
-                D[s[i:i+word_len]] = [i]
+                D[s[i:i+word_len]] += 1                
+            else :                
+                D[s[i:i+word_len]] = 1
                 if (word_len > maxL):
 		    maxL = word_len
         i = i+word_len
